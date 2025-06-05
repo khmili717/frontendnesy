@@ -1,0 +1,2578 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/users": {
+      "post": {
+        "operationId": "UsersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The user has been successfully created"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "403": {
+            "description": "Forbidden - requires admin role"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new user",
+        "tags": [
+          "users"
+        ]
+      },
+      "get": {
+        "operationId": "UsersController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all users"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all users",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/medecins": {
+      "get": {
+        "operationId": "UsersController_findMedecins",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all users with role MEDECIN"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all doctors",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/secretaires": {
+      "get": {
+        "operationId": "UsersController_findSecretaires",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all users with role SECRETAIRE"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all secretaries",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "operationId": "UsersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the user"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a user by ID",
+        "tags": [
+          "users"
+        ]
+      },
+      "put": {
+        "operationId": "UsersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The user has been successfully updated"
+          },
+          "403": {
+            "description": "Forbidden - You can only update your own profile unless you have admin privileges"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update a user",
+        "tags": [
+          "users"
+        ]
+      },
+      "delete": {
+        "operationId": "UsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The user has been successfully deleted"
+          },
+          "403": {
+            "description": "Forbidden - requires admin role"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete a user zo5",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/cin/{cin}": {
+      "get": {
+        "operationId": "UsersController_findByCin",
+        "parameters": [
+          {
+            "name": "cin",
+            "required": true,
+            "in": "path",
+            "description": "User CIN",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the user"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a user by CIN",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/{id}/archive": {
+      "put": {
+        "operationId": "UsersController_archiveUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user has been successfully archived"
+          },
+          "403": {
+            "description": "Forbidden - requires admin role"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Archive a user",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/{id}/unarchive": {
+      "put": {
+        "operationId": "UsersController_unarchiveUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user has been successfully unarchived"
+          },
+          "403": {
+            "description": "Forbidden - requires admin role"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Unarchive a user",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/auth": {
+      "post": {
+        "operationId": "UsersController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully logged in"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        },
+        "summary": "Login a user",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "operationId": "UsersController_logout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User successfully logged out"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Logout a user",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/check-token": {
+      "post": {
+        "operationId": "UsersController_checkToken",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Token valide"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "60d0fe4f5311236168a109ca"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "medecin"
+                        },
+                        "cin": {
+                          "type": "number",
+                          "example": 12345678
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Validate JWT token",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/patients": {
+      "post": {
+        "description": "Creates a patient record using the authenticated user's ID from the JWT token. The id_sec field in the request body is optional and will be overridden by the authenticated user ID.",
+        "operationId": "PatientsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The patient has been successfully created."
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden resource for the current user role."
+          },
+          "500": {
+            "description": "Error occurred while creating patient record."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new patient",
+        "tags": [
+          "patients"
+        ]
+      },
+      "get": {
+        "operationId": "PatientsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all patients"
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all patients (excluding those with pending deletion requests)",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/all-including-pending": {
+      "get": {
+        "operationId": "PatientsController_findAllIncludingPending",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all patients including those with pending deletion requests"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all patients including those with pending deletion requests (Doctor only)",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/today": {
+      "get": {
+        "operationId": "PatientsController_findToday",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns patients registered today"
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get patients registered today",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/pending-deletions": {
+      "get": {
+        "operationId": "PatientsController_getPendingDeletions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns patients with pending deletion requests"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get patients with pending deletion requests (Doctor only)",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/byid/{id}": {
+      "get": {
+        "operationId": "PatientsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Patient ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the patient"
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Patient not found."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a patient by ID",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/cin/{cin}": {
+      "get": {
+        "operationId": "PatientsController_findByCin",
+        "parameters": [
+          {
+            "name": "cin",
+            "required": true,
+            "in": "path",
+            "description": "Patient CIN",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the patient"
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Patient not found."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a patient by CIN",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/dossier/{numDossier}": {
+      "get": {
+        "operationId": "PatientsController_findByDossier",
+        "parameters": [
+          {
+            "name": "numDossier",
+            "required": true,
+            "in": "path",
+            "description": "Patient dossier number (e.g., PAT-1)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the patient"
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Patient not found."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a patient by dossier number",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/{id}": {
+      "put": {
+        "operationId": "PatientsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Patient ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The patient has been successfully updated."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden resource for the current user role."
+          },
+          "404": {
+            "description": "Patient not found."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update a patient",
+        "tags": [
+          "patients"
+        ]
+      },
+      "delete": {
+        "operationId": "PatientsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Patient ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The patient has been successfully deleted."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden resource for the current user role."
+          },
+          "404": {
+            "description": "Patient not found."
+          },
+          "409": {
+            "description": "Patient does not have a pending deletion request."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete a patient with pending deletion request (Doctor only)",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/{id}/request-deletion": {
+      "post": {
+        "operationId": "PatientsController_requestDeletion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Patient ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestPatientDeletionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Deletion request created successfully"
+          },
+          "404": {
+            "description": "Patient not found"
+          },
+          "409": {
+            "description": "Pending deletion request already exists for this patient"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Request patient deletion (Secretary only)",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/patients/{id}/cancel-deletion": {
+      "patch": {
+        "operationId": "PatientsController_cancelDeletion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Patient ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion request canceled successfully"
+          },
+          "404": {
+            "description": "Patient not found"
+          },
+          "409": {
+            "description": "No pending deletion request found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Cancel deletion request (Secretary or Doctor)",
+        "tags": [
+          "patients"
+        ]
+      }
+    },
+    "/consultations": {
+      "post": {
+        "description": "Creates a consultation record using the authenticated doctor's ID from the JWT token. The id_med field in the request body is optional and will be overridden by the authenticated user ID.",
+        "operationId": "ConsultationsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConsultationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The consultation has been successfully created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden resource for the current user role"
+          },
+          "500": {
+            "description": "Error occurred while creating consultation record"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new consultation",
+        "tags": [
+          "consultations"
+        ]
+      },
+      "get": {
+        "operationId": "ConsultationsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all consultations"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all consultations",
+        "tags": [
+          "consultations"
+        ]
+      }
+    },
+    "/consultations/from-appointment": {
+      "post": {
+        "description": "Creates a consultation record from an existing appointment, automatically marks the appointment as completed, and links them.",
+        "operationId": "ConsultationsController_createFromAppointment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConsultationFromAppointmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Consultation created and appointment marked as completed"
+          },
+          "400": {
+            "description": "Invalid data or appointment status"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Doctor role required"
+          },
+          "404": {
+            "description": "Appointment not found"
+          },
+          "409": {
+            "description": "Appointment already has a linked consultation"
+          },
+          "500": {
+            "description": "Error occurred during consultation creation"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a consultation from an appointment",
+        "tags": [
+          "consultations"
+        ]
+      }
+    },
+    "/consultations/my-consultations": {
+      "get": {
+        "operationId": "ConsultationsController_findMyConsultations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all consultations for the authenticated doctor"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Error occurred while fetching consultations"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all consultations for the authenticated doctor",
+        "tags": [
+          "consultations"
+        ]
+      }
+    },
+    "/consultations/patient/{patientId}": {
+      "get": {
+        "operationId": "ConsultationsController_findByPatient",
+        "parameters": [
+          {
+            "name": "patientId",
+            "required": true,
+            "in": "path",
+            "description": "Patient ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns consultations for the specified patient"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get consultations by patient ID",
+        "tags": [
+          "consultations"
+        ]
+      }
+    },
+    "/consultations/doctor/{doctorId}": {
+      "get": {
+        "operationId": "ConsultationsController_findByDoctor",
+        "parameters": [
+          {
+            "name": "doctorId",
+            "required": true,
+            "in": "path",
+            "description": "Doctor ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns consultations for the specified doctor"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get consultations by doctor ID",
+        "tags": [
+          "consultations"
+        ]
+      }
+    },
+    "/consultations/today": {
+      "get": {
+        "operationId": "ConsultationsController_findToday",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns consultations created today for the authenticated doctor"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Error occurred while fetching today's consultations"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get today's consultations for the authenticated doctor",
+        "tags": [
+          "consultations"
+        ]
+      }
+    },
+    "/consultations/{id}": {
+      "get": {
+        "operationId": "ConsultationsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Consultation ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the consultation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Consultation not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a consultation by ID",
+        "tags": [
+          "consultations"
+        ]
+      },
+      "put": {
+        "operationId": "ConsultationsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Consultation ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateConsultationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The consultation has been successfully updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden resource for the current user role"
+          },
+          "404": {
+            "description": "Consultation not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update a consultation",
+        "tags": [
+          "consultations"
+        ]
+      },
+      "delete": {
+        "operationId": "ConsultationsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Consultation ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The consultation has been successfully deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden resource for the current user role"
+          },
+          "404": {
+            "description": "Consultation not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete a consultation",
+        "tags": [
+          "consultations"
+        ]
+      }
+    },
+    "/predictions/consultation/{id}": {
+      "post": {
+        "operationId": "PredictionsController_generatePrediction",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Predictions"
+        ]
+      }
+    },
+    "/predictions/global-factors": {
+      "get": {
+        "operationId": "PredictionsController_getGlobalFactors",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Predictions"
+        ]
+      }
+    },
+    "/predictions/local-factors/{id}": {
+      "get": {
+        "operationId": "PredictionsController_getLocalFactors",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Predictions"
+        ]
+      }
+    },
+    "/predictions/global-analysis": {
+      "post": {
+        "operationId": "PredictionsController_generateGlobalAnalysis",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Predictions"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully logged in"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        },
+        "summary": "User login",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "User successfully logged out"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "User logout",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/check-token": {
+      "post": {
+        "operationId": "AuthController_checkToken",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token is valid"
+          },
+          "401": {
+            "description": "Invalid token"
+          }
+        },
+        "summary": "Validate JWT token",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/rendez-vous": {
+      "post": {
+        "operationId": "RendezVousController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRendezVousDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The appointment has been successfully created"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Secretary role required"
+          },
+          "409": {
+            "description": "Scheduling conflict with another appointment"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new appointment (Secretary only)",
+        "tags": [
+          "rendez-vous"
+        ]
+      },
+      "get": {
+        "operationId": "RendezVousController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all appointments"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all appointments",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    },
+    "/rendez-vous/my-appointments": {
+      "get": {
+        "operationId": "RendezVousController_findMyAppointments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all appointments for the authenticated doctor"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Doctor role required"
+          },
+          "500": {
+            "description": "Error occurred while fetching appointments"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all appointments for the authenticated doctor",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    },
+    "/rendez-vous/today": {
+      "get": {
+        "operationId": "RendezVousController_findToday",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns appointments for today"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get today's appointments",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    },
+    "/rendez-vous/doctor/{id}": {
+      "get": {
+        "operationId": "RendezVousController_findByDoctor",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Doctor ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns appointments for the specified doctor"
+          },
+          "404": {
+            "description": "Doctor not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get appointments for a specific doctor",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    },
+    "/rendez-vous/patient/{id}": {
+      "get": {
+        "operationId": "RendezVousController_findByPatient",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Patient ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns appointments for the specified patient"
+          },
+          "404": {
+            "description": "Patient not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get appointments for a specific patient",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    },
+    "/rendez-vous/{id}": {
+      "get": {
+        "operationId": "RendezVousController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Appointment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the appointment"
+          },
+          "404": {
+            "description": "Appointment not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a specific appointment by ID",
+        "tags": [
+          "rendez-vous"
+        ]
+      },
+      "put": {
+        "operationId": "RendezVousController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Appointment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRendezVousDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The appointment has been successfully updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Secretary role required"
+          },
+          "404": {
+            "description": "Appointment not found"
+          },
+          "409": {
+            "description": "Scheduling conflict with another appointment"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update an appointment (Secretary only)",
+        "tags": [
+          "rendez-vous"
+        ]
+      },
+      "delete": {
+        "operationId": "RendezVousController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Appointment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The appointment has been successfully deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Secretary role required"
+          },
+          "404": {
+            "description": "Appointment not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete an appointment (Secretary only)",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    },
+    "/rendez-vous/{id}/cancel": {
+      "patch": {
+        "operationId": "RendezVousController_cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Appointment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The appointment has been cancelled"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Secretary role required"
+          },
+          "404": {
+            "description": "Appointment not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Cancel an appointment (Secretary only)",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    },
+    "/rendez-vous/{id}/complete": {
+      "patch": {
+        "operationId": "RendezVousController_complete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Appointment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The appointment has been marked as completed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Doctor or Secretary role required"
+          },
+          "404": {
+            "description": "Appointment not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Mark an appointment as completed (Doctor or Secretary)",
+        "tags": [
+          "rendez-vous"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "PFE API",
+    "description": "The PFE API documentation",
+    "version": "1.0",
+    "contact": {
+
+    }
+  },
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "users",
+      "description": "User management endpoints"
+    },
+    {
+      "name": "patients",
+      "description": "Patient management endpoints"
+    },
+    {
+      "name": "consultations",
+      "description": "Consultation management endpoints"
+    },
+    {
+      "name": "predictions",
+      "description": "Prediction endpoints"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string",
+            "description": "User's last name",
+            "example": "Doe"
+          },
+          "prenom": {
+            "type": "string",
+            "description": "User's first name",
+            "example": "John"
+          },
+          "mdp": {
+            "type": "string",
+            "description": "User's password (min 6 characters)",
+            "example": "password123",
+            "minLength": 6
+          },
+          "cin": {
+            "type": "number",
+            "description": "User's CIN (unique identifier)",
+            "example": 12345678
+          },
+          "role": {
+            "type": "string",
+            "description": "User's role",
+            "enum": [
+              "admin",
+              "medecin",
+              "secretaire"
+            ],
+            "example": "medecin"
+          },
+          "sexe": {
+            "type": "string",
+            "description": "User's gender",
+            "enum": [
+              "homme",
+              "femme"
+            ],
+            "example": "homme"
+          },
+          "numero_telephone": {
+            "type": "string",
+            "description": "User's phone number (exactly 8 digits)",
+            "example": "12345678"
+          },
+          "archived": {
+            "type": "boolean",
+            "description": "Flag indicating if the user account is archived",
+            "example": false,
+            "default": false
+          }
+        },
+        "required": [
+          "nom",
+          "prenom",
+          "mdp",
+          "cin",
+          "role",
+          "sexe"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string",
+            "description": "User's last name",
+            "example": "Doe"
+          },
+          "prenom": {
+            "type": "string",
+            "description": "User's first name",
+            "example": "John"
+          },
+          "mdp": {
+            "type": "string",
+            "description": "User's password (min 6 characters)",
+            "example": "password123",
+            "minLength": 6
+          },
+          "cin": {
+            "type": "number",
+            "description": "User's CIN (unique identifier)",
+            "example": 12345678
+          },
+          "role": {
+            "type": "string",
+            "description": "User's role",
+            "enum": [
+              "admin",
+              "medecin",
+              "secretaire"
+            ],
+            "example": "medecin"
+          },
+          "sexe": {
+            "type": "string",
+            "description": "User's gender",
+            "enum": [
+              "homme",
+              "femme"
+            ],
+            "example": "homme"
+          },
+          "numero_telephone": {
+            "type": "string",
+            "description": "User's phone number (exactly 8 digits)",
+            "example": "12345678"
+          },
+          "archived": {
+            "type": "boolean",
+            "description": "Flag indicating if the user account is archived",
+            "example": false
+          }
+        }
+      },
+      "LoginUserDto": {
+        "type": "object",
+        "properties": {
+          "cin": {
+            "type": "number",
+            "description": "User CIN (Unique identifier)",
+            "example": 12345678
+          },
+          "mdp": {
+            "type": "string",
+            "description": "User password",
+            "example": "password123",
+            "minLength": 6
+          }
+        },
+        "required": [
+          "cin",
+          "mdp"
+        ]
+      },
+      "CreatePatientDto": {
+        "type": "object",
+        "properties": {
+          "nom_patient": {
+            "type": "string",
+            "description": "Patient's last name",
+            "example": "Doe"
+          },
+          "pren_patient": {
+            "type": "string",
+            "description": "Patient's first name",
+            "example": "John"
+          },
+          "cin_cnam": {
+            "type": "number",
+            "description": "Patient's CIN or CNAM number",
+            "example": 12345678
+          },
+          "telephone": {
+            "type": "number",
+            "description": "Patient's phone number",
+            "example": 21123456
+          },
+          "date_naiss": {
+            "type": "string",
+            "description": "Patient's date of birth",
+            "example": "1990-01-01"
+          },
+          "sexe": {
+            "type": "string",
+            "description": "Patient's gender",
+            "enum": [
+              "feminin",
+              "masculin"
+            ],
+            "example": "masculin"
+          },
+          "age_int": {
+            "type": "string",
+            "description": "Patient's age range",
+            "enum": [
+              "18-29",
+              "30-39",
+              "40-49",
+              "50-59",
+              "\u003E=60"
+            ],
+            "example": "30-39"
+          },
+          "etatcivil": {
+            "type": "string",
+            "description": "Patient's marital status",
+            "enum": [
+              "divorcé",
+              "célibataire",
+              "marié",
+              "voeuf"
+            ],
+            "example": "marié"
+          },
+          "origine": {
+            "type": "string",
+            "description": "Patient's origin",
+            "enum": [
+              "urbaine",
+              "rurale"
+            ],
+            "example": "urbaine"
+          },
+          "lieuderesidence": {
+            "type": "string",
+            "description": "Patient's living situation",
+            "enum": [
+              "seule",
+              "en famille"
+            ],
+            "example": "en famille"
+          },
+          "villederesidence": {
+            "type": "string",
+            "description": "Patient's city of residence",
+            "enum": [
+              "sud",
+              "centre"
+            ],
+            "example": "centre"
+          },
+          "nvscolaire": {
+            "type": "string",
+            "description": "Patient's education level",
+            "enum": [
+              "secondaire",
+              "universitaire",
+              "analphabète",
+              "primaire"
+            ],
+            "example": "universitaire"
+          },
+          "type_prof": {
+            "type": "string",
+            "description": "Patient's profession type",
+            "enum": [
+              "irreguliere",
+              "chomage",
+              "reguliere",
+              "retraite",
+              "eleve"
+            ],
+            "example": "reguliere"
+          },
+          "nv_socioeconomique": {
+            "type": "string",
+            "description": "Patient's socioeconomic level",
+            "enum": [
+              "moyen",
+              "bas"
+            ],
+            "example": "moyen"
+          },
+          "id_sec": {
+            "type": "string",
+            "description": "Secretary ID who created the patient (automatically set from JWT token)",
+            "example": "60d0fe4f5311236168a109ca"
+          }
+        },
+        "required": [
+          "nom_patient",
+          "pren_patient",
+          "sexe",
+          "age_int",
+          "etatcivil",
+          "origine",
+          "lieuderesidence",
+          "villederesidence",
+          "nvscolaire",
+          "type_prof",
+          "nv_socioeconomique"
+        ]
+      },
+      "UpdatePatientDto": {
+        "type": "object",
+        "properties": {
+          "nom_patient": {
+            "type": "string",
+            "description": "Patient's last name",
+            "example": "Doe"
+          },
+          "pren_patient": {
+            "type": "string",
+            "description": "Patient's first name",
+            "example": "John"
+          },
+          "cin_cnam": {
+            "type": "number",
+            "description": "Patient's CIN or CNAM number",
+            "example": 12345678
+          },
+          "telephone": {
+            "type": "number",
+            "description": "Patient's phone number",
+            "example": 21123456
+          },
+          "date_naiss": {
+            "type": "string",
+            "description": "Patient's date of birth",
+            "example": "1990-01-01"
+          },
+          "sexe": {
+            "type": "string",
+            "description": "Patient's gender",
+            "enum": [
+              "feminin",
+              "masculin"
+            ],
+            "example": "masculin"
+          },
+          "age_int": {
+            "type": "string",
+            "description": "Patient's age range",
+            "enum": [
+              "18-29",
+              "30-39",
+              "40-49",
+              "50-59",
+              "\u003E=60"
+            ],
+            "example": "30-39"
+          },
+          "etatcivil": {
+            "type": "string",
+            "description": "Patient's marital status",
+            "enum": [
+              "divorcé",
+              "célibataire",
+              "marié",
+              "voeuf"
+            ],
+            "example": "marié"
+          },
+          "origine": {
+            "type": "string",
+            "description": "Patient's origin",
+            "enum": [
+              "urbaine",
+              "rurale"
+            ],
+            "example": "urbaine"
+          },
+          "lieuderesidence": {
+            "type": "string",
+            "description": "Patient's living situation",
+            "enum": [
+              "seule",
+              "en famille"
+            ],
+            "example": "en famille"
+          },
+          "villederesidence": {
+            "type": "string",
+            "description": "Patient's city of residence",
+            "enum": [
+              "sud",
+              "centre"
+            ],
+            "example": "centre"
+          },
+          "nvscolaire": {
+            "type": "string",
+            "description": "Patient's education level",
+            "enum": [
+              "secondaire",
+              "universitaire",
+              "analphabète",
+              "primaire"
+            ],
+            "example": "universitaire"
+          },
+          "type_prof": {
+            "type": "string",
+            "description": "Patient's profession type",
+            "enum": [
+              "irreguliere",
+              "chomage",
+              "reguliere",
+              "retraite",
+              "eleve"
+            ],
+            "example": "reguliere"
+          },
+          "nv_socioeconomique": {
+            "type": "string",
+            "description": "Patient's socioeconomic level",
+            "enum": [
+              "moyen",
+              "bas"
+            ],
+            "example": "moyen"
+          },
+          "id_sec": {
+            "type": "string",
+            "description": "Secretary ID who updated the patient",
+            "example": "60d0fe4f5311236168a109ca"
+          }
+        }
+      },
+      "RequestPatientDeletionDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "description": "Reason for requesting patient deletion",
+            "example": "Patient requested data removal due to privacy concerns",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "CreateConsultationDto": {
+        "type": "object",
+        "properties": {
+          "num_dossier": {
+            "type": "string",
+            "description": "Patient ID (num_dossier)",
+            "example": "60d0fe4f5311236168a109ca"
+          },
+          "id_med": {
+            "type": "string",
+            "description": "Doctor ID",
+            "example": "67f003975de64805fbd3fad6"
+          },
+          "date": {
+            "type": "string",
+            "description": "Consultation date (defaults to current date if not provided)",
+            "example": "2023-05-15"
+          },
+          "addiction": {
+            "type": "boolean",
+            "description": "Whether the patient has an addiction",
+            "example": true
+          },
+          "TABAC": {
+            "type": "boolean",
+            "description": "Whether the patient smokes tobacco",
+            "example": false
+          },
+          "alcool": {
+            "type": "boolean",
+            "description": "Whether the patient consumes alcohol",
+            "example": false
+          },
+          "cannabis": {
+            "type": "boolean",
+            "description": "Whether the patient uses cannabis",
+            "example": false
+          },
+          "medicaments": {
+            "type": "boolean",
+            "description": "Whether the patient misuses medications",
+            "example": false
+          },
+          "solvantsorg": {
+            "type": "boolean",
+            "description": "Whether the patient uses organic solvents",
+            "example": false
+          },
+          "AtcdsP_TS": {
+            "type": "boolean",
+            "description": "Whether the patient has a history of suicide attempts",
+            "example": true
+          },
+          "idees_sui_ant": {
+            "type": "boolean",
+            "description": "Whether the patient had previous suicidal ideation",
+            "example": true
+          },
+          "hospit_ant": {
+            "type": "boolean",
+            "description": "Whether the patient was previously hospitalized",
+            "example": false
+          },
+          "atcdsFam_SUI": {
+            "type": "boolean",
+            "description": "Whether the patient has family history of suicide",
+            "example": false
+          },
+          "suicide_accompli": {
+            "type": "boolean",
+            "description": "Whether a suicide was completed in the family",
+            "example": false
+          },
+          "AtcdsP_somatik": {
+            "type": "boolean",
+            "description": "Whether the patient has a history of somatic issues",
+            "example": false
+          },
+          "cond_impulsiv": {
+            "type": "boolean",
+            "description": "Whether the patient has impulsive behavior",
+            "example": true
+          },
+          "automit": {
+            "type": "boolean",
+            "description": "Whether the patient has self-mutilation behavior",
+            "example": false
+          },
+          "atcds_p_judic": {
+            "type": "boolean",
+            "description": "Whether the patient has judicial history",
+            "example": false
+          },
+          "immolation": {
+            "type": "boolean",
+            "description": "Whether immolation attempt was made",
+            "example": false
+          },
+          "moyenphlebotomie": {
+            "type": "boolean",
+            "description": "Whether phlebotomy was used as a method",
+            "example": false
+          },
+          "Mpendaison": {
+            "type": "boolean",
+            "description": "Whether hanging was used as a method",
+            "example": false
+          },
+          "Mmedicaments": {
+            "type": "boolean",
+            "description": "Whether medications were used as a method",
+            "example": true
+          },
+          "Mstrangulation": {
+            "type": "boolean",
+            "description": "Whether strangulation was used as a method",
+            "example": false
+          },
+          "Mingestiontox": {
+            "type": "boolean",
+            "description": "Whether toxic ingestion was used as a method",
+            "example": false
+          },
+          "EQUIsui": {
+            "type": "boolean",
+            "description": "Whether equianalgesic suicide method was used",
+            "example": false
+          },
+          "sautaltitude": {
+            "type": "boolean",
+            "description": "Whether jumping from height was used as a method",
+            "example": false
+          },
+          "Mautres": {
+            "type": "boolean",
+            "description": "Whether other methods were used",
+            "example": false
+          },
+          "nombres_hospit": {
+            "type": "string",
+            "description": "Number of hospitalizations",
+            "enum": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "\u003E4"
+            ],
+            "example": "3"
+          },
+          "famille_contenante": {
+            "type": "boolean",
+            "description": "Whether the family is supportive/containing",
+            "example": true
+          },
+          "type_atcdspsy": {
+            "type": "string",
+            "description": "Type of psychiatric history",
+            "enum": [
+              "aucune",
+              "trouble de l'humeur",
+              "autre",
+              "trouble psychotique",
+              "troubles cognitifs",
+              "non précisé",
+              "trouble anxieux"
+            ],
+            "example": "aucune"
+          },
+          "diagnostic_retenu": {
+            "type": "string",
+            "description": "Retained diagnosis",
+            "enum": [
+              "SKZ",
+              "ep_maniaque",
+              "DUP",
+              "autre",
+              "BDA",
+              "tr_anxieux",
+              "DBP",
+              "tr_delirant",
+              "tr_personnalité_seul"
+            ],
+            "example": "autre"
+          },
+          "type_personn": {
+            "type": "string",
+            "description": "Personality type",
+            "enum": [
+              "PAS",
+              "antisociale",
+              "histrionique",
+              "Borderline"
+            ],
+            "example": "PAS"
+          },
+          "reaction_stress": {
+            "type": "boolean",
+            "description": "Whether the patient has stress reaction",
+            "example": true
+          },
+          "injonc_suicidaires": {
+            "type": "boolean",
+            "description": "Whether the patient has suicidal injunctions",
+            "example": false
+          },
+          "angoisse_psychotique": {
+            "type": "boolean",
+            "description": "Whether the patient has psychotic anxiety",
+            "example": false
+          },
+          "etatdepressif": {
+            "type": "boolean",
+            "description": "Whether the patient has depressive state",
+            "example": true
+          },
+          "nbres_de_ts": {
+            "type": "string",
+            "description": "Number of suicide attempts",
+            "enum": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "\u003E4"
+            ],
+            "example": "1"
+          },
+          "anciennetemaladie": {
+            "type": "string",
+            "description": "Illness duration/age",
+            "enum": [
+              "0",
+              "\u003C=5",
+              "6-10",
+              "11-20",
+              "\u003E20"
+            ],
+            "example": "\u003C=5"
+          },
+          "agedebutannee": {
+            "type": "string",
+            "description": "Age at illness onset",
+            "enum": [
+              "\u003C=17",
+              "18-40",
+              "41-60",
+              "\u003E60"
+            ],
+            "example": "18-40"
+          },
+          "motifTS": {
+            "type": "boolean",
+            "description": "Whether there is a suicide attempt motive",
+            "example": true
+          },
+          "remarque": {
+            "type": "string",
+            "description": "Additional notes or remarks about the consultation",
+            "example": "Patient shows improvement since last visit"
+          }
+        },
+        "required": [
+          "num_dossier",
+          "addiction",
+          "TABAC",
+          "alcool",
+          "cannabis",
+          "medicaments",
+          "solvantsorg",
+          "AtcdsP_TS",
+          "idees_sui_ant",
+          "hospit_ant",
+          "atcdsFam_SUI",
+          "suicide_accompli",
+          "AtcdsP_somatik",
+          "cond_impulsiv",
+          "automit",
+          "atcds_p_judic",
+          "immolation",
+          "moyenphlebotomie",
+          "Mpendaison",
+          "Mmedicaments",
+          "Mstrangulation",
+          "Mingestiontox",
+          "EQUIsui",
+          "sautaltitude",
+          "Mautres",
+          "nombres_hospit",
+          "famille_contenante",
+          "type_atcdspsy",
+          "diagnostic_retenu",
+          "type_personn",
+          "reaction_stress",
+          "injonc_suicidaires",
+          "angoisse_psychotique",
+          "etatdepressif",
+          "nbres_de_ts",
+          "anciennetemaladie",
+          "agedebutannee",
+          "motifTS"
+        ]
+      },
+      "CreateConsultationFromAppointmentDto": {
+        "type": "object",
+        "properties": {
+          "appointmentId": {
+            "type": "string",
+            "description": "The appointment ID to create the consultation from",
+            "example": "60d21b4667d0d8992e610c85"
+          },
+          "consultationData": {
+            "description": "The consultation data",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CreateConsultationDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "appointmentId",
+          "consultationData"
+        ]
+      },
+      "UpdateConsultationDto": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "CreateRendezVousDto": {
+        "type": "object",
+        "properties": {
+          "id_med": {
+            "type": "string",
+            "description": "Doctor ID",
+            "example": "60d0fe4f5311236168a109ca"
+          },
+          "id_num_dossier": {
+            "type": "string",
+            "description": "Patient ID (num_dossier)",
+            "example": "61a5d468b84b1d28a8a8f7e9"
+          },
+          "date": {
+            "type": "string",
+            "description": "Appointment date",
+            "example": "2023-06-15"
+          },
+          "heure": {
+            "type": "string",
+            "description": "Appointment time",
+            "example": "14:30"
+          },
+          "status": {
+            "type": "string",
+            "description": "Appointment status",
+            "enum": [
+              "en attente",
+              "annulé",
+              "complété"
+            ],
+            "default": "en attente",
+            "example": "en attente"
+          }
+        },
+        "required": [
+          "id_med",
+          "id_num_dossier",
+          "date",
+          "heure"
+        ]
+      },
+      "UpdateRendezVousDto": {
+        "type": "object",
+        "properties": {
+          "id_med": {
+            "type": "string",
+            "description": "Doctor ID",
+            "example": "60d0fe4f5311236168a109ca"
+          },
+          "id_num_dossier": {
+            "type": "string",
+            "description": "Patient ID (num_dossier)",
+            "example": "61a5d468b84b1d28a8a8f7e9"
+          },
+          "date": {
+            "type": "string",
+            "description": "Appointment date",
+            "example": "2023-06-15"
+          },
+          "heure": {
+            "type": "string",
+            "description": "Appointment time",
+            "example": "14:30"
+          },
+          "status": {
+            "type": "string",
+            "description": "Appointment status",
+            "enum": [
+              "en attente",
+              "annulé",
+              "complété"
+            ],
+            "example": "en attente"
+          }
+        }
+      }
+    }
+  }
+}

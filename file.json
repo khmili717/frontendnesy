@@ -1,0 +1,452 @@
+{
+  "/rendez-vous": {
+  "post": {
+    "operationId": "RendezVousController_create",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateRendezVousDto"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "The appointment has been successfully created"
+      },
+      "400": {
+        "description": "Invalid input data"
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "403": {
+        "description": "Forbidden - Secretary role required"
+      },
+      "409": {
+        "description": "Scheduling conflict with another appointment"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Create a new appointment (Secretary only)",
+    "tags": [
+      "rendez-vous"
+    ]
+  },
+  "get": {
+    "operationId": "RendezVousController_findAll",
+    "parameters": [],
+    "responses": {
+      "200": {
+        "description": "Returns all appointments"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Get all appointments",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+},
+"/rendez-vous/my-appointments": {
+  "get": {
+    "operationId": "RendezVousController_findMyAppointments",
+    "parameters": [],
+    "responses": {
+      "200": {
+        "description": "Returns all appointments for the authenticated doctor"
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "403": {
+        "description": "Forbidden - Doctor role required"
+      },
+      "500": {
+        "description": "Error occurred while fetching appointments"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Get all appointments for the authenticated doctor",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+},
+"/rendez-vous/today": {
+  "get": {
+    "operationId": "RendezVousController_findToday",
+    "parameters": [],
+    "responses": {
+      "200": {
+        "description": "Returns appointments for today"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Get today's appointments",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+},
+"/rendez-vous/doctor/{id}": {
+  "get": {
+    "operationId": "RendezVousController_findByDoctor",
+    "parameters": [
+      {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "description": "Doctor ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Returns appointments for the specified doctor"
+      },
+      "404": {
+        "description": "Doctor not found"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Get appointments for a specific doctor",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+},
+"/rendez-vous/patient/{id}": {
+  "get": {
+    "operationId": "RendezVousController_findByPatient",
+    "parameters": [
+      {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "description": "Patient ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Returns appointments for the specified patient"
+      },
+      "404": {
+        "description": "Patient not found"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Get appointments for a specific patient",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+},
+"/rendez-vous/{id}": {
+  "get": {
+    "operationId": "RendezVousController_findOne",
+    "parameters": [
+      {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "description": "Appointment ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Returns the appointment"
+      },
+      "404": {
+        "description": "Appointment not found"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Get a specific appointment by ID",
+    "tags": [
+      "rendez-vous"
+    ]
+  },
+  "put": {
+    "operationId": "RendezVousController_update",
+    "parameters": [
+      {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "description": "Appointment ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateRendezVousDto"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "The appointment has been successfully updated"
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "403": {
+        "description": "Forbidden - Secretary role required"
+      },
+      "404": {
+        "description": "Appointment not found"
+      },
+      "409": {
+        "description": "Scheduling conflict with another appointment"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Update an appointment (Secretary only)",
+    "tags": [
+      "rendez-vous"
+    ]
+  },
+  "delete": {
+    "operationId": "RendezVousController_remove",
+    "parameters": [
+      {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "description": "Appointment ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "The appointment has been successfully deleted"
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "403": {
+        "description": "Forbidden - Secretary role required"
+      },
+      "404": {
+        "description": "Appointment not found"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Delete an appointment (Secretary only)",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+},
+"/rendez-vous/{id}/cancel": {
+  "patch": {
+    "operationId": "RendezVousController_cancel",
+    "parameters": [
+      {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "description": "Appointment ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "The appointment has been cancelled"
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "403": {
+        "description": "Forbidden - Secretary role required"
+      },
+      "404": {
+        "description": "Appointment not found"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Cancel an appointment (Secretary only)",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+},
+"/rendez-vous/{id}/complete": {
+  "patch": {
+    "operationId": "RendezVousController_complete",
+    "parameters": [
+      {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "description": "Appointment ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "The appointment has been marked as completed"
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "403": {
+        "description": "Forbidden - Doctor or Secretary role required"
+      },
+      "404": {
+        "description": "Appointment not found"
+      }
+    },
+    "security": [
+      {
+        "bearer": []
+      }
+    ],
+    "summary": "Mark an appointment as completed (Doctor or Secretary)",
+    "tags": [
+      "rendez-vous"
+    ]
+  }
+}
+"CreateRendezVousDto": {
+  "type": "object",
+  "properties": {
+    "id_med": {
+      "type": "string",
+      "description": "Doctor ID",
+      "example": "60d0fe4f5311236168a109ca"
+    },
+    "id_num_dossier": {
+      "type": "string",
+      "description": "Patient ID (num_dossier)",
+      "example": "61a5d468b84b1d28a8a8f7e9"
+    },
+    "date": {
+      "type": "string",
+      "description": "Appointment date",
+      "example": "2023-06-15"
+    },
+    "heure": {
+      "type": "string",
+      "description": "Appointment time",
+      "example": "14:30"
+    },
+    "status": {
+      "type": "string",
+      "description": "Appointment status",
+      "enum": [
+        "en attente",
+        "annulé",
+        "complété"
+      ],
+      "default": "en attente",
+      "example": "en attente"
+    }
+  },
+  "required": [
+    "id_med",
+    "id_num_dossier",
+    "date",
+    "heure"
+  ]
+},
+"UpdateRendezVousDto": {
+  "type": "object",
+  "properties": {
+    "id_med": {
+      "type": "string",
+      "description": "Doctor ID",
+      "example": "60d0fe4f5311236168a109ca"
+    },
+    "id_num_dossier": {
+      "type": "string",
+      "description": "Patient ID (num_dossier)",
+      "example": "61a5d468b84b1d28a8a8f7e9"
+    },
+    "date": {
+      "type": "string",
+      "description": "Appointment date",
+      "example": "2023-06-15"
+    },
+    "heure": {
+      "type": "string",
+      "description": "Appointment time",
+      "example": "14:30"
+    },
+    "status": {
+      "type": "string",
+      "description": "Appointment status",
+      "enum": [
+        "en attente",
+        "annulé",
+        "complété"
+      ],
+      "example": "en attente"
+    }
+  }
+}
+}
