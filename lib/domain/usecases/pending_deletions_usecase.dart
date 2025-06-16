@@ -19,4 +19,14 @@ class CancelDeletionUseCase {
   Future<void> call(String patientId) async {
     await _repository.cancelPatientDeletion(patientId);
   }
+}
+
+class ConfirmDeletionUseCase {
+  final PendingDeletionsRepository _repository;
+
+  ConfirmDeletionUseCase(this._repository);
+
+  Future<void> call(String patientId) async {
+    await _repository.confirmPatientDeletion(patientId);
+  }
 } 

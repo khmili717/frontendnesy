@@ -5,6 +5,7 @@ import 'package:foresight_care/features/auth/presentation/pages/login_page.dart'
 import 'package:foresight_care/features/admin/presentation/pages/admin_dashboard_page.dart';
 import 'package:foresight_care/features/secretary/presentation/pages/secretary_landing_page.dart';
 import 'package:foresight_care/features/doctor/presentation/pages/doctor_dashboard_page.dart';
+import 'package:foresight_care/features/doctor/presentation/pages/ml_analytics_dashboard.dart';
 
 // Route names
 class AppRoutes {
@@ -17,6 +18,7 @@ class AppRoutes {
   static const String patients = '/patients';
   static const String consultations = '/consultations';
   static const String appointments = '/appointments';
+  static const String mlAnalytics = '/ml-analytics';
 }
 
 // Router provider
@@ -85,6 +87,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ),
           ),
+          GoRoute(
+            path: 'ml-analytics',
+            name: 'mlAnalytics',
+            builder: (context, state) => const MLAnalyticsDashboard(),
+          ),
         ],
       ),
       
@@ -151,4 +158,5 @@ extension AppRouterExtension on GoRouter {
   void goToAdminDashboard() => go(AppRoutes.adminDashboard);
   void goToDoctorDashboard() => go(AppRoutes.doctorDashboard);
   void goToSecretaryDashboard() => go(AppRoutes.secretaryDashboard);
+  void goToMLAnalytics() => go('/doctor/ml-analytics');
 } 

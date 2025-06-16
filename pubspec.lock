@@ -573,6 +573,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  nimble_charts:
+    dependency: "direct main"
+    description:
+      name: nimble_charts
+      sha256: "5d341fc8464c2bea8e857aa4caffc9d49a60fff186787efb1c8a99ea4106ee16"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0-beta"
+  nimble_charts_common:
+    dependency: transitive
+    description:
+      name: nimble_charts_common
+      sha256: f427fbe9a1fcebc71ca3b9eaec54f880453414fdd6b3da43cccd166bbab86591
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0-beta"
   package_config:
     dependency: transitive
     description:

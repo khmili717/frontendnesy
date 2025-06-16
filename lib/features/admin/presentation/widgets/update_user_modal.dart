@@ -219,8 +219,11 @@ class _UpdateUserModalState extends ConsumerState<UpdateUserModal> {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (value) {
                   if (value != null && value.trim().isNotEmpty) {
+                    if (value.length != 8) {
+                      return 'Le CIN doit comporter exactement 8 chiffres';
+                    }
                     if (int.tryParse(value) == null) {
-                      return 'Le CIN doit être un nombre valide';
+                      return 'Le CIN doit contenir uniquement des chiffres';
                     }
                   }
                   return null;

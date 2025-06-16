@@ -65,4 +65,34 @@ class PendingDeletionsRepositoryImpl implements PendingDeletionsRepository {
       throw Exception(errorMessage);
     }
   }
+
+  @override
+  Future<void> confirmPatientDeletion(String patientId) async {
+    try {
+      debugPrint('🚀 [PENDING_DELETIONS_REPO] Confirming deletion for patient ID: $patientId');
+      
+      await _apiClient.deletePatient(patientId);
+      debugPrint('✅ [PENDING_DELETIONS_REPO] Successfully confirmed deletion for patient: $patientId');
+    } catch (e, stackTrace) {
+      debugPrint('❌ [PENDING_DELETIONS_REPO] Error confirming deletion: $e');
+      debugPrint('📍 [PENDING_DELETIONS_REPO] Stack trace: $stackTrace');
+      
+      // Provide user-friendly error messages
+      String errorMessage = 'Failed to confirm patient deletion';
+      
+      if (e.toString().contains('401')) {
+        errorMessage = 'Session expired. Please log in again.';
+      } else if (e.toString().contains('403')) {
+        errorMessage = 'Access denied. You do not have permission to delete patients.';
+      } else if (e.toString().contains('404')) {
+        errorMessage = 'Patient not found or deletion request does not exist.';
+      } else if (e.toString().contains('409')) {
+        errorMessage = 'Patient does not have a pending deletion request.';
+      } else if (e.toString().contains('network') || e.toString().contains('connection')) {
+        errorMessage = 'Network error. Please check your internet connection.';
+      }
+      
+      throw Exception(errorMessage);
+    }
+  }
 } 

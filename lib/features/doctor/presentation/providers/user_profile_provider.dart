@@ -200,9 +200,12 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
         if (value == null || value.trim().isEmpty) {
           return 'Le CIN est requis';
         }
+        if (value.length != 8) {
+          return 'Le CIN doit comporter exactement 8 chiffres';
+        }
         final cinInt = int.tryParse(value);
         if (cinInt == null || cinInt <= 0) {
-          return 'Le CIN doit être un nombre valide';
+          return 'Le CIN doit contenir uniquement des chiffres';
         }
         break;
       case 'numeroTelephone':

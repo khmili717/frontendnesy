@@ -4,6 +4,7 @@ import 'package:foresight_care/features/auth/presentation/providers/auth_provide
 import 'package:foresight_care/features/doctor/presentation/providers/pending_deletions_provider.dart';
 import 'package:foresight_care/features/doctor/presentation/pages/pending_deletions_screen.dart';
 import 'package:foresight_care/features/doctor/presentation/pages/user_profile_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class DoctorHeader extends ConsumerWidget {
   final VoidCallback onLogout;
@@ -204,6 +205,35 @@ class DoctorHeader extends ConsumerWidget {
               ),
               
               const SizedBox(width: 12),
+
+              // ML Analytics button
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: const Color(0xFF0066CC).withOpacity(0.3)),
+                    ),
+                    child: IconButton(
+                      alignment: Alignment.center,
+                      onPressed: () => _navigateToMLAnalytics(context),
+                      icon: const Icon(
+                        Icons.analytics,
+                        color: Color(0xFF0066CC),
+                        size: 24,
+                      ),
+                      tooltip: 'ML Analytics Dashboard',
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                ],
+              ),
+              
+              const SizedBox(width: 12),
               
               // Logout button
               Column(
@@ -263,6 +293,10 @@ class DoctorHeader extends ConsumerWidget {
         builder: (context) => const PendingDeletionsScreen(),
       ),
     );
+  }
+
+  void _navigateToMLAnalytics(BuildContext context) {
+    context.go('/doctor/ml-analytics');
   }
 
   void _showLogoutDialog(BuildContext context) {

@@ -39,10 +39,12 @@ class PendingDeletionsState {
 class PendingDeletionsNotifier extends StateNotifier<PendingDeletionsState> {
   final GetPendingDeletionsUseCase _getPendingDeletionsUseCase;
   final CancelDeletionUseCase _cancelDeletionUseCase;
+  final ConfirmDeletionUseCase _confirmDeletionUseCase;
 
   PendingDeletionsNotifier(
     this._getPendingDeletionsUseCase,
     this._cancelDeletionUseCase,
+    this._confirmDeletionUseCase,
   ) : super(const PendingDeletionsState()) {
     fetchPendingDeletions();
   }
@@ -116,6 +118,33 @@ class PendingDeletionsNotifier extends StateNotifier<PendingDeletionsState> {
     }
   }
 
+  Future<bool> confirmDeletion(String patientId) async {
+    debugPrint('[PENDING_DELETIONS] ✅ Confirming deletion for patient: $patientId');
+    
+    try {
+      await _confirmDeletionUseCase(patientId);
+      debugPrint('[PENDING_DELETIONS] ✅ Successfully confirmed deletion for patient: $patientId');
+      
+      // Remove the patient from the list
+      final updatedList = state.pendingDeletions
+          .where((patient) => patient.id != patientId)
+          .toList();
+      
+      state = state.copyWith(
+        pendingDeletions: updatedList,
+        error: null,
+      );
+      
+      return true;
+    } catch (e) {
+      debugPrint('[PENDING_DELETIONS] ❌ Error confirming deletion: $e');
+      state = state.copyWith(
+        error: e.toString().replaceFirst('Exception: ', ''),
+      );
+      return false;
+    }
+  }
+
   void clearError() {
     state = state.copyWith(error: null);
   }
@@ -138,11 +167,17 @@ final cancelDeletionUseCaseProvider = Provider<CancelDeletionUseCase>((ref) {
   return CancelDeletionUseCase(repository);
 });
 
+final confirmDeletionUseCaseProvider = Provider<ConfirmDeletionUseCase>((ref) {
+  final repository = ref.watch(pendingDeletionsRepositoryProvider);
+  return ConfirmDeletionUseCase(repository);
+});
+
 // Main provider instance
 final pendingDeletionsProvider = StateNotifierProvider<PendingDeletionsNotifier, PendingDeletionsState>((ref) {
   final getPendingDeletionsUseCase = ref.watch(getPendingDeletionsUseCaseProvider);
   final cancelDeletionUseCase = ref.watch(cancelDeletionUseCaseProvider);
-  return PendingDeletionsNotifier(getPendingDeletionsUseCase, cancelDeletionUseCase);
+  final confirmDeletionUseCase = ref.watch(confirmDeletionUseCaseProvider);
+  return PendingDeletionsNotifier(getPendingDeletionsUseCase, cancelDeletionUseCase, confirmDeletionUseCase);
 });
 
 // Helper providers

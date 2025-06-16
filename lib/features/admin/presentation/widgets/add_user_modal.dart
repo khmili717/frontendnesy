@@ -183,8 +183,11 @@ class _AddUserModalState extends ConsumerState<AddUserModal> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Le CIN est obligatoire';
                   }
+                  if (value.length != 8) {
+                    return 'Le CIN doit comporter exactement 8 chiffres';
+                  }
                   if (int.tryParse(value) == null) {
-                    return 'Le CIN doit être un nombre valide';
+                    return 'Le CIN doit contenir uniquement des chiffres';
                   }
                   return null;
                 },
@@ -202,7 +205,7 @@ class _AddUserModalState extends ConsumerState<AddUserModal> {
                     return 'Le mot de passe est obligatoire';
                   }
                   if (value.length < 6) {
-                    return 'Le mot de passe doit contenir au moins 6 caractères';
+                    return 'Au moins 6 caractères requis';
                   }
                   return null;
                 },
@@ -248,7 +251,7 @@ class _AddUserModalState extends ConsumerState<AddUserModal> {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (value) {
                   if (value != null && value.isNotEmpty && value.length != 8) {
-                    return 'Le numéro de téléphone doit contenir exactement 8 chiffres';
+                    return 'Le numéro doit contenir exactement 8 chiffres';
                   }
                   return null;
                 },

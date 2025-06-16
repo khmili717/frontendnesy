@@ -650,24 +650,39 @@ class _PendingDeletionsScreenState extends ConsumerState<PendingDeletionsScreen>
   }
 
   Future<void> _confirmDeletion(Patient patient) async {
-    // For now, we'll show a message that this feature would delete the patient permanently
-    // In a real implementation, you would add a confirmDeletion method to the provider
-    // that calls the deletePatient API endpoint
+    final success = await ref.read(pendingDeletionsProvider.notifier).confirmDeletion(patient.id!);
     
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Fonctionnalité de suppression définitive à implémenter pour ${patient.prenPatient} ${patient.nomPatient}',
-            style: const TextStyle(
-              fontFamily: 'League Spartan',
-              fontWeight: FontWeight.w500,
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Patient ${patient.prenPatient} ${patient.nomPatient} supprimé définitivement',
+              style: const TextStyle(
+                fontFamily: 'League Spartan',
+                fontWeight: FontWeight.w500,
+              ),
             ),
+            backgroundColor: Colors.green[600],
+            duration: const Duration(seconds: 3),
           ),
-          backgroundColor: Colors.orange[600],
-          duration: const Duration(seconds: 3),
-        ),
-      );
+        );
+      } else {
+        final error = ref.read(pendingDeletionsProvider).error;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              error ?? 'Erreur lors de la suppression définitive',
+              style: const TextStyle(
+                fontFamily: 'League Spartan',
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: Colors.red[600],
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
     }
   }
 
